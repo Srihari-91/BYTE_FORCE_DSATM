@@ -1,0 +1,22 @@
+{
+  "name": "truthcart-backend",
+  "version": "1.0.0",
+  "description": "TruthCart Truth Verification Engine — Backend API for marketing claim analysis, spec translation, and cross-source validation",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "axios": "^1.15.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.0",
+    "uuid": "^10.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

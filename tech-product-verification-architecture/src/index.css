@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #080B14;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbar for tab navigation */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for main page */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Animated elements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* ================================================================
+   ADVANCED ANIMATIONS
+   ================================================================ */
+
+/* Gradient background shift */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-shift {
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* Shimmer sweep across surfaces */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 55%, transparent 60%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Score ring animation */
+@keyframes scoreReveal {
+  from { stroke-dashoffset: 440; }
+}
+
+/* SVG gauge ring fill */
+@keyframes gaugeFill {
+  from { stroke-dashoffset: var(--gauge-circumference, 314); }
+  to   { stroke-dashoffset: var(--gauge-offset, 100); }
+}
+
+.animate-gauge-fill {
+  animation: gaugeFill 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glow pulse effect */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(74, 222, 128, 0.4); }
+}
+
+.glow-emerald {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Score number pop-in */
+@keyframes scorePop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-score-pop {
+  animation: scorePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Floating particle drift */
+@keyframes particleDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20%      { opacity: 0.8; }
+  80%      { opacity: 0; }
+  100%     { transform: translate(30px, -50px) scale(0.3); opacity: 0; }
+}
+
+@keyframes particleDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20%      { opacity: 0.7; }
+  80%      { opacity: 0; }
+  100%     { transform: translate(-25px, -45px) scale(0.2); opacity: 0; }
+}
+
+@keyframes particleDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  25%      { opacity: 0.6; }
+  75%      { opacity: 0; }
+  100%     { transform: translate(15px, -60px) scale(0.4); opacity: 0; }
+}
+
+.animate-particle-1 { animation: particleDrift1 2.8s ease-out 0.3s infinite; }
+.animate-particle-2 { animation: particleDrift2 3.2s ease-out 0.8s infinite; }
+.animate-particle-3 { animation: particleDrift3 2.5s ease-out 1.3s infinite; }
+
+/* Logo ripple pulse */
+@keyframes logoRipple {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70%  { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.animate-logo-ripple {
+  animation: logoRipple 3s ease-out 0.8s infinite;
+}
+
+/* Border glow trail */
+@keyframes borderGlowTrail {
+  0%, 100% { border-color: rgba(30, 41, 59, 1); }
+  50%      { border-color: rgba(16, 185, 129, 0.4); }
+}
+
+.animate-border-glow {
+  animation: borderGlowTrail 3s ease-in-out infinite;
+}
+
+/* Critical warning pulse */
+@keyframes criticalPulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(239, 68, 68, 0.25), inset 0 0 18px rgba(239, 68, 68, 0.05); }
+  50%      { box-shadow: 0 0 32px rgba(239, 68, 68, 0.45), inset 0 0 32px rgba(239, 68, 68, 0.1); }
+}
+
+.animate-critical-pulse {
+  animation: criticalPulse 2s ease-in-out infinite;
+}
+
+/* Pulsing dot for loading */
+@keyframes loadingDot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40%           { transform: scale(1); opacity: 1; }
+}
+
+.animate-loading-dot {
+  animation: loadingDot 1.4s ease-in-out infinite;
+}
+
+.animate-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.animate-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Staggered reveal utilities */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* Overlay-style dramatic entrance */
+@keyframes overlayEnter {
+  0%   { opacity: 0; transform: translateX(24px) scale(0.92); }
+  60%  { opacity: 1; transform: translateX(-2px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.animate-overlay-enter {
+  animation: overlayEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Multi-ring spinning */
+@keyframes spinOrbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-spin-orbit {
+  animation: spinOrbit 1.5s linear infinite;
+}
+
+/* Shake for error state */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.6s ease-in-out 0.3s;
+}
+
+/* Insight dot pulse */
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.4); }
+}
+
+.animate-dot-pulse {
+  animation: dotPulse 2s ease-in-out infinite;
+}

@@ -1,0 +1,1342 @@
+/* ================================================================
+   TruthCart Extension Overlay — Advanced Animation Styles
+   Dark theme: #080B14 base, emerald/cyan gradients
+   Matches the Truth Score Analysis screenshot design
+   All styles scoped within Shadow DOM
+   ================================================================ */
+
+:host {
+  --tc-bg-primary: #080B14;
+  --tc-bg-secondary: #0D1320;
+  --tc-bg-tertiary: #131B2A;
+  --tc-bg-card: #111827;
+  --tc-border: #1E293B;
+  --tc-border-light: #334155;
+  --tc-text-primary: #F1F5F9;
+  --tc-text-secondary: #94A3B8;
+  --tc-text-muted: #64748B;
+  --tc-emerald: #10B981;
+  --tc-emerald-dim: #059669;
+  --tc-cyan: #06B6D4;
+  --tc-cyan-dim: #0891B2;
+  --tc-red: #EF4444;
+  --tc-red-dim: #DC2626;
+  --tc-amber: #F59E0B;
+  --tc-amber-dim: #D97706;
+  --tc-blue: #3B82F6;
+  --tc-purple: #8B5CF6;
+  --tc-gradient: linear-gradient(135deg, #10B981, #06B6D4);
+  --tc-gradient-amber: linear-gradient(135deg, #F59E0B, #F97316);
+  --tc-gradient-danger: linear-gradient(135deg, #EF4444, #F97316);
+  --tc-gradient-purple: linear-gradient(135deg, #8B5CF6, #06B6D4);
+  --tc-radius-sm: 8px;
+  --tc-radius: 12px;
+  --tc-radius-lg: 16px;
+  --tc-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --tc-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tc-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --tc-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tc-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ================================================================
+   KEYFRAME ANIMATIONS
+   ================================================================ */
+
+@keyframes tcOverlayEnter {
+  0%   { opacity: 0; transform: translateX(24px) scale(0.92); }
+  60%  { opacity: 1; transform: translateX(-2px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes tcFadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tcGaugeFill {
+  from { stroke-dashoffset: var(--gauge-circumference, 283); }
+  to   { stroke-dashoffset: var(--gauge-offset, 100); }
+}
+
+@keyframes tcGaugeGlow {
+  0%, 100% { filter: drop-shadow(0 0 6px var(--glow-color, rgba(16,185,129,0.3))); }
+  50%      { filter: drop-shadow(0 0 14px var(--glow-color, rgba(16,185,129,0.55))); }
+}
+
+@keyframes tcScorePop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tcShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes tcParticleDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20%      { opacity: 0.8; }
+  80%      { opacity: 0; }
+  100%     { transform: translate(30px, -50px) scale(0.3); opacity: 0; }
+}
+
+@keyframes tcParticleDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  20%      { opacity: 0.7; }
+  80%      { opacity: 0; }
+  100%     { transform: translate(-25px, -45px) scale(0.2); opacity: 0; }
+}
+
+@keyframes tcParticleDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  25%      { opacity: 0.6; }
+  75%      { opacity: 0; }
+  100%     { transform: translate(15px, -60px) scale(0.4); opacity: 0; }
+}
+
+@keyframes tcGradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes tcLogoRipple {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70%  { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes tcCriticalPulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(239, 68, 68, 0.25), inset 0 0 18px rgba(239, 68, 68, 0.05); }
+  50%      { box-shadow: 0 0 32px rgba(239, 68, 68, 0.45), inset 0 0 32px rgba(239, 68, 68, 0.1); }
+}
+
+@keyframes tcBarFill {
+  from { width: 0%; }
+  to   { width: var(--bar-target, 100%); }
+}
+
+@keyframes tcShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+@keyframes tcSpinOrbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes tcLoadingDot {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40%           { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tcBorderGlowTrail {
+  0%   { border-color: var(--tc-border); }
+  50%  { border-color: rgba(16, 185, 129, 0.4); }
+  100% { border-color: var(--tc-border); }
+}
+
+@keyframes tcDotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.5); opacity: 0.7; }
+}
+
+@keyframes tcExpandDown {
+  from { max-height: 0; opacity: 0; }
+  to   { max-height: 600px; opacity: 1; }
+}
+
+/* ================================================================
+   OVERLAY ROOT
+   ================================================================ */
+
+.truthcart-overlay-root {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 420px;
+  max-height: calc(100vh - 40px);
+  background: var(--tc-bg-primary);
+  border: 1px solid var(--tc-border);
+  border-radius: var(--tc-radius-lg);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  font-family: var(--tc-font);
+  color: var(--tc-text-primary);
+  z-index: 2147483647;
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: tcOverlayEnter 0.45s var(--tc-ease-out);
+  scrollbar-width: thin;
+  scrollbar-color: var(--tc-border-light) transparent;
+  background-clip: padding-box;
+}
+
+.truthcart-overlay-root::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px; right: -1px; bottom: -1px;
+  border-radius: var(--tc-radius-lg);
+  background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(6,182,212,0.15), rgba(139,92,246,0.1), rgba(16,185,129,0.15));
+  background-size: 300% 300%;
+  z-index: -1;
+  animation: tcGradientShift 4s ease infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.truthcart-overlay-root::-webkit-scrollbar { width: 4px; }
+.truthcart-overlay-root::-webkit-scrollbar-thumb {
+  background: var(--tc-border-light);
+  border-radius: 2px;
+}
+
+/* Staggered animation delays for children */
+.truthcart-overlay-root > * {
+  animation: tcFadeInUp 0.5s var(--tc-ease-out) both;
+}
+.truthcart-overlay-root > *:nth-child(2) { animation-delay: 0.05s; }
+.truthcart-overlay-root > *:nth-child(3) { animation-delay: 0.1s; }
+.truthcart-overlay-root > *:nth-child(4) { animation-delay: 0.15s; }
+.truthcart-overlay-root > *:nth-child(5) { animation-delay: 0.2s; }
+.truthcart-overlay-root > *:nth-child(6) { animation-delay: 0.25s; }
+.truthcart-overlay-root > *:nth-child(7) { animation-delay: 0.3s; }
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+
+.truthcart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, var(--tc-bg-secondary) 0%, rgba(13,19,32,0.95) 100%);
+  border-bottom: 1px solid var(--tc-border);
+  border-radius: var(--tc-radius-lg) var(--tc-radius-lg) 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.truthcart-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.truthcart-shield-icon {
+  color: var(--tc-emerald);
+  display: flex;
+  align-items: center;
+  animation: tcLogoRipple 3s ease-out 0.8s infinite;
+}
+
+.truthcart-header-title {
+  font-size: 14px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--tc-text-primary), var(--tc-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.truthcart-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.truthcart-fingerprint {
+  font-size: 10px;
+  color: var(--tc-text-muted);
+  font-family: var(--tc-mono);
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truthcart-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tc-emerald);
+  animation: tcDotPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.truthcart-close-btn {
+  background: var(--tc-bg-tertiary);
+  border: 1px solid var(--tc-border);
+  color: var(--tc-text-secondary);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--tc-ease-out);
+  flex-shrink: 0;
+}
+
+.truthcart-close-btn:hover {
+  background: var(--tc-red-dim);
+  color: white;
+  border-color: var(--tc-red-dim);
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ================================================================
+   MAIN SECTION — Two-column layout: Product info + Score ring
+   ================================================================ */
+
+.truthcart-main-section {
+  display: flex;
+  padding: 20px 18px;
+  gap: 20px;
+  border-bottom: 1px solid var(--tc-border);
+  position: relative;
+}
+
+/* Product info — left column */
+.truthcart-product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.truthcart-source-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.truthcart-source-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--tc-blue);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  font-size: 11px;
+  font-family: var(--tc-mono);
+  font-weight: 500;
+}
+
+.truthcart-confidence-text {
+  font-size: 11px;
+  color: var(--tc-text-muted);
+}
+
+.truthcart-product-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--tc-text-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.truthcart-brand-category {
+  font-size: 12px;
+  color: var(--tc-text-secondary);
+  margin-bottom: 10px;
+}
+
+.truthcart-price-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.truthcart-product-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--tc-text-primary);
+}
+
+.truthcart-product-rating {
+  font-size: 13px;
+  color: var(--tc-text-secondary);
+}
+
+.truthcart-star {
+  color: #FACC15;
+}
+
+/* Verdict badge */
+.truthcart-verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  animation: tcFadeInUp 0.4s var(--tc-ease-out) 0.3s both;
+}
+
+.truthcart-verdict-badge.verdict-reliable {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--tc-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.truthcart-verdict-badge.verdict-misleading {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--tc-amber);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.truthcart-verdict-badge.verdict-heavy {
+  background: rgba(249, 115, 22, 0.12);
+  color: #F97316;
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.truthcart-verdict-badge.verdict-beware {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--tc-red);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Score ring — right column */
+.truthcart-score-ring-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.truthcart-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+/* Subtle radial glow behind gauge */
+.truthcart-gauge::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 160px; height: 160px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* SVG Ring Gauge */
+.truthcart-gauge-svg {
+  width: 130px;
+  height: 130px;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 6px rgba(16,185,129,0.25));
+}
+
+.truthcart-gauge-track {
+  fill: none;
+  stroke: var(--tc-bg-tertiary);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.truthcart-gauge-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s;
+}
+
+.truthcart-gauge-progress.animating {
+  animation: tcGaugeFill 1.2s var(--tc-ease-out) forwards;
+}
+
+/* Score text centered in ring */
+.truthcart-gauge-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.truthcart-score-value {
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--tc-mono);
+  line-height: 1;
+  animation: tcScorePop 0.5s var(--tc-ease-bounce) both;
+}
+
+.truthcart-score-label-main {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.truthcart-score-outof {
+  font-size: 10px;
+  color: var(--tc-text-muted);
+  margin-top: 1px;
+}
+
+/* Floating particles around gauge */
+.truthcart-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.truthcart-particle.p1 { top: 15px; left: 50%; background: var(--tc-emerald); animation: tcParticleDrift1 2.8s ease-out 0.3s infinite; }
+.truthcart-particle.p2 { top: 25px; right: 20px; background: var(--tc-cyan); animation: tcParticleDrift2 3.2s ease-out 0.8s infinite; }
+.truthcart-particle.p3 { bottom: 15px; left: 25px; background: var(--tc-emerald); animation: tcParticleDrift3 2.5s ease-out 1.3s infinite; }
+.truthcart-particle.p4 { top: 40px; left: 15px; width: 3px; height: 3px; background: var(--tc-purple); animation: tcParticleDrift1 3s ease-out 0s infinite; }
+.truthcart-particle.p5 { bottom: 20px; right: 20px; background: var(--tc-cyan); animation: tcParticleDrift2 2.7s ease-out 1.6s infinite; }
+
+/* Shimmer sweep on gauge */
+.truthcart-gauge::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 55%, transparent 60%);
+  background-size: 200% 100%;
+  animation: tcShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Fusion note below ring */
+.truthcart-fusion-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--tc-text-muted);
+}
+
+.truthcart-fusion-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc-gradient);
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   SCORE BREAKDOWN — 5 horizontal bars
+   ================================================================ */
+
+.truthcart-breakdown-section {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--tc-border);
+}
+
+.truthcart-breakdown-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tc-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+
+.truthcart-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  animation: tcFadeInUp 0.35s var(--tc-ease-out) both;
+}
+
+.truthcart-breakdown-label {
+  font-size: 12px;
+  color: var(--tc-text-secondary);
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.truthcart-breakdown-bar-wrapper {
+  flex: 1;
+  height: 8px;
+  background: var(--tc-bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.truthcart-breakdown-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s var(--tc-ease-out);
+  position: relative;
+}
+
+.truthcart-breakdown-bar.bar-green {
+  background: linear-gradient(90deg, #10B981, #06B6D4);
+}
+
+.truthcart-breakdown-bar.bar-yellow {
+  background: linear-gradient(90deg, #F59E0B, #F97316);
+}
+
+.truthcart-breakdown-bar.bar-red {
+  background: linear-gradient(90deg, #EF4444, #F97316);
+}
+
+/* Shine on breakdown bar */
+.truthcart-breakdown-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 16px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  border-radius: 4px;
+}
+
+.truthcart-breakdown-value {
+  font-size: 12px;
+  font-family: var(--tc-mono);
+  color: var(--tc-text-muted);
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   CLAIMS SECTION — Warning/cross icons with claim text
+   ================================================================ */
+
+.truthcart-claims-section {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--tc-border);
+}
+
+.truthcart-claims-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.truthcart-warning-icon {
+  font-size: 14px;
+}
+
+.truthcart-claims-summary-text {
+  color: var(--tc-amber);
+  font-weight: 600;
+}
+
+.truthcart-claims-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.truthcart-claim-item {
+  display: flex;
+  gap: 10px;
+  background: var(--tc-bg-card);
+  border-radius: var(--tc-radius-sm);
+  padding: 10px 12px;
+  border: 1px solid var(--tc-border);
+  transition: all 0.3s var(--tc-ease-out);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.truthcart-claim-item:hover {
+  border-color: var(--tc-border-light);
+  transform: translateX(3px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.truthcart-claim-item::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.015) 45%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.015) 55%, transparent 60%);
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.truthcart-claim-item:hover::after {
+  opacity: 1;
+  animation: tcShimmer 2s ease-in-out infinite;
+}
+
+/* Staggered claim entrance */
+.truthcart-claim-item:nth-child(1) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.05s both; }
+.truthcart-claim-item:nth-child(2) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.1s both; }
+.truthcart-claim-item:nth-child(3) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.15s both; }
+.truthcart-claim-item:nth-child(4) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.2s both; }
+.truthcart-claim-item:nth-child(5) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.25s both; }
+.truthcart-claim-item:nth-child(n+6) { animation: tcFadeInUp 0.35s var(--tc-ease-out) 0.3s both; }
+
+.truthcart-claim-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 1px;
+}
+
+.truthcart-claim-icon.icon-critical {
+  color: var(--tc-red);
+}
+
+.truthcart-claim-icon.icon-warning {
+  color: var(--tc-amber);
+}
+
+.truthcart-claim-icon.icon-info {
+  color: var(--tc-blue);
+}
+
+.truthcart-claim-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.truthcart-claim-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tc-text-primary);
+  margin-bottom: 3px;
+}
+
+.truthcart-claim-desc {
+  font-size: 11px;
+  color: var(--tc-text-secondary);
+  line-height: 1.4;
+}
+
+/* ================================================================
+   EXPAND SECTION — "More detail" button
+   ================================================================ */
+
+.truthcart-expand-container {
+  border-bottom: 1px solid var(--tc-border);
+}
+
+.truthcart-expand-btn {
+  width: 100%;
+  padding: 12px 18px;
+  background: var(--tc-bg-secondary);
+  border: none;
+  color: var(--tc-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--tc-font);
+  cursor: pointer;
+  transition: all 0.25s var(--tc-ease-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.truthcart-expand-btn:hover {
+  background: var(--tc-bg-tertiary);
+  color: var(--tc-text-primary);
+}
+
+.truthcart-caret {
+  font-size: 10px;
+  transition: transform 0.3s var(--tc-ease-out);
+}
+
+.truthcart-expand-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s var(--tc-ease-out), opacity 0.3s ease;
+}
+
+.truthcart-expand-content.expanded {
+  max-height: 600px;
+  opacity: 1;
+}
+
+/* ================================================================
+   INNER SECTIONS (inside expandable)
+   ================================================================ */
+
+.truthcart-section-inner {
+  padding: 14px 18px;
+  border-top: 1px solid var(--tc-border);
+}
+
+.truthcart-inner-heading {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tc-text-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Reddit issues */
+.truthcart-issues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.truthcart-issue-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  transition: transform 0.25s var(--tc-ease-out);
+}
+
+.truthcart-issue-row:hover {
+  transform: translateX(4px);
+}
+
+.truthcart-issue-label {
+  width: 80px;
+  color: var(--tc-text-secondary);
+  text-transform: capitalize;
+  flex-shrink: 0;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+}
+
+.truthcart-issue-bar-wrapper {
+  flex: 1;
+  height: 5px;
+  background: var(--tc-bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.truthcart-issue-bar {
+  height: 100%;
+  background: var(--tc-gradient);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.8s var(--tc-ease-out);
+  position: relative;
+}
+
+.truthcart-issue-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 16px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  border-radius: 3px;
+}
+
+.truthcart-issue-count {
+  width: 24px;
+  text-align: right;
+  color: var(--tc-text-muted);
+  font-family: var(--tc-mono);
+  font-size: 10px;
+}
+
+.truthcart-contradiction-item {
+  background: var(--tc-bg-card);
+  border-radius: var(--tc-radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border: 1px solid var(--tc-border);
+  font-size: 11px;
+  transition: all 0.3s var(--tc-ease-out);
+}
+
+.truthcart-contradiction-item:hover {
+  border-color: rgba(239,68,68,0.3);
+  box-shadow: 0 2px 10px rgba(239,68,68,0.08);
+}
+
+.truthcart-contradiction-claim {
+  color: var(--tc-amber);
+  margin-bottom: 4px;
+}
+
+.truthcart-contradiction-evidence {
+  color: var(--tc-text-secondary);
+  line-height: 1.4;
+}
+
+.truthcart-contradiction-confidence {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  background: var(--tc-bg-tertiary);
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--tc-text-muted);
+  font-family: var(--tc-mono);
+}
+
+/* Insights */
+.truthcart-insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.truthcart-insight-item {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 12px;
+  color: var(--tc-text-secondary);
+  line-height: 1.5;
+  transition: all 0.25s var(--tc-ease-out);
+  border-radius: 6px;
+  cursor: default;
+}
+
+.truthcart-insight-item:hover {
+  background: rgba(255,255,255,0.02);
+  padding-left: 8px;
+  color: var(--tc-text-primary);
+}
+
+.truthcart-insight-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc-gradient);
+  flex-shrink: 0;
+  margin-top: 6px;
+  animation: tcDotPulse 2s ease-in-out infinite;
+}
+
+.truthcart-insight-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Stats grid */
+.truthcart-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.truthcart-stat-chip {
+  background: var(--tc-bg-card);
+  border-radius: var(--tc-radius-sm);
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--tc-border);
+}
+
+.truthcart-stat-chip-val {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--tc-mono);
+  color: var(--tc-text-primary);
+}
+
+.truthcart-stat-chip-lbl {
+  display: block;
+  font-size: 9px;
+  color: var(--tc-text-muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.truthcart-sub-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tc-text-secondary);
+  margin: 14px 0 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--tc-border-light);
+}
+
+/* ================================================================
+   CHAT SECTION
+   ================================================================ */
+
+@keyframes tcTypingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
+@keyframes tcMsgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.truthcart-chat-section {
+  border-top: 1px solid var(--tc-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.truthcart-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--tc-bg-secondary);
+  border-bottom: 1px solid var(--tc-border);
+}
+
+.truthcart-chat-header-icon {
+  color: var(--tc-emerald);
+  display: flex;
+  align-items: center;
+}
+
+.truthcart-chat-header-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tc-text-primary);
+}
+
+.truthcart-chat-messages {
+  flex: 1;
+  padding: 12px 14px;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tc-border) transparent;
+}
+
+.truthcart-chat-messages::-webkit-scrollbar { width: 3px; }
+.truthcart-chat-messages::-webkit-scrollbar-thumb { background: var(--tc-border); border-radius: 2px; }
+
+.truthcart-chat-message {
+  display: flex;
+  gap: 8px;
+  animation: tcMsgIn 0.3s var(--tc-ease-out) both;
+}
+
+.truthcart-chat-bot {
+  align-items: flex-start;
+}
+
+.truthcart-chat-user {
+  justify-content: flex-end;
+}
+
+.truthcart-chat-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--tc-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.truthcart-chat-bubble {
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.truthcart-chat-bot .truthcart-chat-bubble {
+  background: var(--tc-bg-card);
+  color: var(--tc-text-secondary);
+  border: 1px solid var(--tc-border);
+  border-top-left-radius: 3px;
+}
+
+.truthcart-chat-user .truthcart-chat-bubble {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--tc-text-primary);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-top-right-radius: 3px;
+}
+
+.truthcart-chat-bubble strong {
+  color: var(--tc-text-primary);
+  font-weight: 600;
+}
+
+/* Typing indicator */
+.truthcart-chat-typing {
+  display: flex;
+  gap: 4px;
+  padding: 8px 14px;
+  background: var(--tc-bg-card);
+  border: 1px solid var(--tc-border);
+  border-radius: 10px;
+  border-top-left-radius: 3px;
+}
+
+.truthcart-chat-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc-text-muted);
+  animation: tcTypingBounce 1.2s ease-in-out infinite;
+}
+
+.truthcart-chat-typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.truthcart-chat-typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* Input area */
+.truthcart-chat-input-area {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--tc-bg-secondary);
+  border-top: 1px solid var(--tc-border);
+}
+
+.truthcart-chat-input {
+  flex: 1;
+  padding: 8px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--tc-border);
+  background: var(--tc-bg-primary);
+  color: var(--tc-text-primary);
+  font-size: 12px;
+  font-family: var(--tc-font);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.truthcart-chat-input:focus {
+  border-color: var(--tc-emerald);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+}
+
+.truthcart-chat-input::placeholder {
+  color: var(--tc-text-muted);
+}
+
+.truthcart-chat-send-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--tc-gradient);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s var(--tc-ease-out);
+  flex-shrink: 0;
+}
+
+.truthcart-chat-send-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+}
+
+.truthcart-chat-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.truthcart-chat-disabled .truthcart-chat-input {
+  opacity: 0.6;
+}
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+
+.truthcart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  font-size: 10px;
+  border-radius: 0 0 var(--tc-radius-lg) var(--tc-radius-lg);
+  background: linear-gradient(0deg, var(--tc-bg-secondary) 0%, rgba(13,19,32,0.8) 100%);
+}
+
+.truthcart-footer-left {
+  color: var(--tc-text-muted);
+}
+
+.truthcart-footer-right {
+  color: var(--tc-emerald);
+  font-weight: 600;
+  font-size: 10px;
+}
+
+/* ================================================================
+   LOADING STATE
+   ================================================================ */
+
+.truthcart-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  text-align: center;
+  background: var(--tc-bg-primary);
+  border-radius: var(--tc-radius-lg);
+  border: 1px solid var(--tc-border);
+}
+
+.truthcart-spinner-container {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+}
+
+.truthcart-spinner-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+
+.truthcart-spinner-ring.ring-1 {
+  border-top-color: var(--tc-emerald);
+  animation: tcSpinOrbit 1s linear infinite;
+}
+
+.truthcart-spinner-ring.ring-2 {
+  inset: 8px;
+  border-right-color: var(--tc-cyan);
+  animation: tcSpinOrbit 1.4s linear infinite reverse;
+}
+
+.truthcart-spinner-ring.ring-3 {
+  inset: 16px;
+  border-bottom-color: var(--tc-purple);
+  animation: tcSpinOrbit 1.8s linear infinite;
+}
+
+.truthcart-loading-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tc-text-primary);
+  background: var(--tc-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: tcGradientShift 2s ease infinite;
+  background-size: 200% 200%;
+}
+
+.truthcart-loading-subtext {
+  font-size: 11px;
+  color: var(--tc-text-muted);
+  margin-top: 6px;
+}
+
+.truthcart-loading-steps {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.truthcart-loading-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc-emerald);
+  animation: tcLoadingDot 1.4s ease-in-out infinite;
+}
+
+.truthcart-loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.truthcart-loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ================================================================
+   ERROR STATE
+   ================================================================ */
+
+.truthcart-error {
+  padding: 36px 20px;
+  text-align: center;
+  background: var(--tc-bg-primary);
+  border-radius: var(--tc-radius-lg);
+  border: 1px solid var(--tc-border);
+}
+
+.truthcart-error-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.12);
+  border: 2px solid var(--tc-red-dim);
+  color: var(--tc-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 auto 16px;
+  animation: tcShake 0.6s ease-in-out 0.3s;
+}
+
+.truthcart-error-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tc-text-primary);
+  margin-bottom: 6px;
+}
+
+.truthcart-error-message {
+  font-size: 12px;
+  color: var(--tc-text-secondary);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.truthcart-retry-btn {
+  padding: 10px 24px;
+  background: var(--tc-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--tc-ease-out);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.truthcart-retry-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+}
+
+.truthcart-retry-btn:active {
+  transform: translateY(0) scale(0.97);
+}
