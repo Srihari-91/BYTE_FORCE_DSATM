@@ -4,7 +4,7 @@
 
 ---
 
-Tech Truth Engine (SpecC) is a modular, AI-powered system that analyzes consumer technology claims and converts them into structured, comparable, and decision-ready insights.
+Tech Truth Engine (SpecC) is a modular, AI-powered extension that analyzes consumer technology claims and converts them into structured, comparable, and decision-ready insights.
 
 Instead of summarizing marketing, this system **interrogates it** — exposing ambiguity, normalizing specs, and revealing hidden trade-offs so users can make rational purchase decisions.
 
